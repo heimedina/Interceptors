@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -42,7 +43,10 @@ public class ScheduleInterceptor implements HandlerInterceptor{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		String mensaje = (String) request.getAttribute("mensaje");
-		modelAndView.addObject("horario",mensaje);
+		if(modelAndView != null && handler instanceof HandlerMethod) {
+			modelAndView.addObject("horario",mensaje);
+		}
+		
 	}
 
 }
